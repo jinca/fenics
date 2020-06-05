@@ -32,6 +32,8 @@ f = Constant(beta - 2 - 2*alpha)
 F = u*v*dx + dt*dot(grad(u), grad(v))*dx - (u_n + dt*f)*v*dx
 a, L = lhs(F), rhs(F)
 
+vtkfile = File('heat/heat.pvd')
+
 # Time-stepping
 u = Function(V)
 t = 0
@@ -44,6 +46,8 @@ for n in range(num_steps):
     # Compute solution
     solve(a == L, u, bc)
 
+    vtkfile << (u, t)
+    
     # Plot solution
     plot(u)
 
